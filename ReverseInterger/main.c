@@ -50,6 +50,121 @@ int comp(const void *a,const void *b)
 {
     return *(int *)a - *(int *)b;
 }
+
+
+#pragma mark - 18. 四数之和
+//https://leetcode-cn.com/problems/4sum/
+void fourSumSelector(void)
+{
+    int** fourSum(int* nums, int numsSize, int target, int* returnSize, int** returnColumnSizes);
+    
+    int heightArray[] = {-4,-1,-1,0,1,2};
+    
+    
+    int **returnColumnSizes = (int**)malloc(sizeof(int *)*4);
+    
+    int *returnSize = (int *)malloc(sizeof(int));
+    
+    fourSum(heightArray, 6,-1,  returnSize, returnColumnSizes);
+    
+}
+
+int** fourSum(int* nums, int numsSize, int target, int* returnSize, int** returnColumnSizes){
+    
+    if (numsSize < 4) {
+        *returnSize = 0;
+        
+        return NULL;
+    }
+    
+    *returnSize = 1;
+    int n = numsSize;
+    while (n > 4) {
+        *returnSize = (*returnSize)*n;
+        n--;
+    }
+    
+    *returnColumnSizes = (int *)malloc(sizeof(int)*(*returnSize));
+    
+    int **result = (int **)malloc(sizeof(int *)*(*returnSize));
+    
+    
+    qsort(nums, numsSize, sizeof(int), comp);
+    
+    int index = 0;
+    
+    for (int i = 0; i < numsSize - 3; i++) {
+        
+        if (i >= 1 && nums[i] == nums[i-1]) {
+            continue;
+        }
+        
+        for (int j = i +1; j < numsSize - 2; j ++) {
+            if (j >= i+2 && nums[j] == nums[j-1]) {
+                continue;
+            }
+            
+            
+            int k = j+1;
+            int m = numsSize -1 ;
+            
+            while (k < m) {
+                
+                if (nums[i]+nums[j] +nums[k]+nums[m] == target) {
+                    
+                    result[index] = (int *)malloc(sizeof(int)*4);
+                    
+                    (*returnColumnSizes)[index] = 4;
+                    
+                    result[index][0] = nums[i];
+                    result[index][1] = nums[j];
+                    result[index][2] = nums[k];
+                    result[index][3] = nums[m];
+                    
+                    index ++ ;
+                    
+                    
+                    while (nums[k] == nums[++k] && k < m) {
+                        k++;
+                    }
+                    
+                    while (nums[m]== nums[--m] && k < m) {
+                        m--;
+                    }
+                    
+                    
+                    
+                    
+                }else if (nums[i]+nums[j] +nums[k]+nums[m] < target)
+                {
+                    k++;
+                }else{
+                    m--;
+                }
+                
+                
+                
+            }
+            
+            
+        }
+        
+    }
+    
+    *returnSize = index;
+    
+    
+    for (int i = 0; i < *returnSize; i++) {
+        
+        for (int j = 0; j < 4; j++) {
+            printf("result[%d][%d]:%d\n",i,j,result[i][j]);
+        }
+        printf("\n");
+        
+    }
+    
+    return result;
+}
 #pragma mark - 20200524周赛
 
 void maxVowelsSelector(void)
@@ -147,119 +262,6 @@ int isPrefixOfWord(char * sentence, char * searchWord){
     return -1;
 }
 
-#pragma mark - 18. 四数之和
-//https://leetcode-cn.com/problems/4sum/
-void fourSumSelector(void)
-{
-    int** fourSum(int* nums, int numsSize, int target, int* returnSize, int** returnColumnSizes);
-    
-    int heightArray[] = {-4,-1,-1,0,1,2};
-    
-    
-    int **returnColumnSizes = (int**)malloc(sizeof(int *)*4);
-    
-    int *returnSize = (int *)malloc(sizeof(int));
-    
-    fourSum(heightArray, 6,-1,  returnSize, returnColumnSizes);
-    
-}
-
-int** fourSum(int* nums, int numsSize, int target, int* returnSize, int** returnColumnSizes){
-    
-    if (numsSize < 4) {
-        *returnSize = 0;
-        
-        return NULL;
-    }
-    
-    *returnSize = 1;
-    int n = numsSize;
-    while (n > 4) {
-        *returnSize = (*returnSize)*n;
-        n--;
-    }
-    
-    *returnColumnSizes = (int *)malloc(sizeof(int)*(*returnSize));
-    
-    int **result = (int **)malloc(sizeof(int *)*(*returnSize));
-  
-    
-    qsort(nums, numsSize, sizeof(int), comp);
-
-    int index = 0;
-    
-    for (int i = 0; i < numsSize - 3; i++) {
-        
-        if (i >= 1 && nums[i] == nums[i-1]) {
-            continue;
-        }
-        
-        for (int j = i +1; j < numsSize - 2; j ++) {
-            if (j >= i+2 && nums[j] == nums[j-1]) {
-                continue;
-            }
-            
-            
-            int k = j+1;
-            int m = numsSize -1 ;
-            
-            while (k < m) {
-                
-                if (nums[i]+nums[j] +nums[k]+nums[m] == target) {
-                    
-                    result[index] = (int *)malloc(sizeof(int)*4);
-                    
-                    (*returnColumnSizes)[index] = 4;
-                    
-                    result[index][0] = nums[i];
-                    result[index][1] = nums[j];
-                    result[index][2] = nums[k];
-                    result[index][3] = nums[m];
-
-                    index ++ ;
-             
-                    
-                    while (nums[k] == nums[++k] && k < m) {
-                        k++;
-                    }
-                    
-                    while (nums[m]== nums[--m] && k < m) {
-                        m--;
-                    }
-                    
-                    
-                    
-                    
-                }else if (nums[i]+nums[j] +nums[k]+nums[m] < target)
-                {
-                    k++;
-                }else{
-                    m--;
-                }
-                
-                
-                
-            }
-   
-            
-        }
-        
-    }
-    
-    *returnSize = index;
-    
-    
-    for (int i = 0; i < *returnSize; i++) {
-        
-        for (int j = 0; j < 4; j++) {
-            printf("result[%d][%d]:%d\n",i,j,result[i][j]);
-        }
-        printf("\n");
-        
-    }
-    
-    return result;
-}
 #pragma mark - 17
 //https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/
 
