@@ -39,19 +39,57 @@ struct TreeNode {
 int main(int argc, const char * argv[]) {
 
 
-    void fourSumSelector(void);
-    fourSumSelector();
-
+    void removeNthFromEndSelector(void);
+    removeNthFromEndSelector();
+    
 
     return 0;
 }
 
+//排序
 int comp(const void *a,const void *b)
 {
     return *(int *)a - *(int *)b;
 }
 
+#pragma mark - 19. 删除链表的倒数第N个节点
+//https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
+//递归算法
+void removeNthFromEndSelector(void)
+{
+    struct ListNode *createList (int n);
+    struct ListNode* removeNthFromEnd(struct ListNode* head, int n);
+    
+    struct ListNode *firstList = createList(10);
+    removeNthFromEnd(firstList, 9);
+    
 
+}
+int removeNthDepth(struct ListNode *node,int n)
+{
+    if (!node) {
+        return 0;
+    }
+    
+    int nextDepth = removeNthDepth(node->next,n);
+    
+    if (nextDepth == n) {
+        node->next = node->next->next;
+    }
+    
+    return nextDepth+1;
+}
+
+struct ListNode* removeNthFromEnd(struct ListNode* head, int n){
+    
+    
+    
+    if (removeNthDepth(head, n) == n) {
+        return head->next;
+    }
+    return head;
+
+}
 #pragma mark - 18. 四数之和
 //https://leetcode-cn.com/problems/4sum/
 void fourSumSelector(void)
