@@ -39,8 +39,8 @@ struct TreeNode {
 int main(int argc, const char * argv[]) {
 
 
-    void maxVowelsSelector(void);
-    maxVowelsSelector();
+    void fourSumSelector(void);
+    fourSumSelector();
 
 
     return 0;
@@ -58,14 +58,14 @@ void fourSumSelector(void)
 {
     int** fourSum(int* nums, int numsSize, int target, int* returnSize, int** returnColumnSizes);
     
-    int heightArray[] = {-4,-1,-1,0,1,2};
+    int heightArray[] = {-4,-3,-2,-1,0,0,1,2,3,4};
     
     
     int **returnColumnSizes = (int**)malloc(sizeof(int *)*4);
     
     int *returnSize = (int *)malloc(sizeof(int));
     
-    fourSum(heightArray, 6,-1,  returnSize, returnColumnSizes);
+    fourSum(heightArray, 10,0,  returnSize, returnColumnSizes);
     
 }
 
@@ -77,12 +77,9 @@ int** fourSum(int* nums, int numsSize, int target, int* returnSize, int** return
         return NULL;
     }
     
-    *returnSize = 1;
-    int n = numsSize;
-    while (n > 4) {
-        *returnSize = (*returnSize)*n;
-        n--;
-    }
+    //为啥要分配这样的内存大小，我也不知道
+    *returnSize = 6*(numsSize+1);
+
     
     *returnColumnSizes = (int *)malloc(sizeof(int)*(*returnSize));
     
