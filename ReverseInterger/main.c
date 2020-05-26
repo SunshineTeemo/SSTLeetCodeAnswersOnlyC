@@ -52,6 +52,30 @@ int comp(const void *a,const void *b)
     return *(int *)a - *(int *)b;
 }
 
+#pragma mark - 22. 括号生成
+//https://leetcode-cn.com/problems/generate-parentheses/
+
+//回溯
+void generateParenthesisBack(char **result,int n,int *returnSize,int leftCount,int rightCount,char *s,int index)
+{
+   
+
+        
+
+}
+char ** generateParenthesis(int n, int* returnSize){
+    
+    char **result  = (char **)malloc(sizeof(char*)*(*returnSize));
+    char *s = (char*)malloc(sizeof(char)*(n+1));
+    
+    generateParenthesisBack(result, n, returnSize, 0, 0, s,0);
+    
+   
+    
+    return result;
+    
+    
+}
 #pragma mark - 19. 删除链表的倒数第N个节点
 //https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
 //递归算法
