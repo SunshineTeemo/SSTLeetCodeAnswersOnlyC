@@ -39,8 +39,8 @@ struct TreeNode {
 int main(int argc, const char * argv[]) {
 
 
-    void removeNthFromEndSelector(void);
-    removeNthFromEndSelector();
+    void generateParenthesisSelector(void);
+    generateParenthesisSelector();
     
 
     return 0;
@@ -54,23 +54,72 @@ int comp(const void *a,const void *b)
 
 #pragma mark - 22. 括号生成
 //https://leetcode-cn.com/problems/generate-parentheses/
-
-//回溯
-void generateParenthesisBack(char **result,int n,int *returnSize,int leftCount,int rightCount,char *s,int index)
+void generateParenthesisSelector(void)
 {
-   
+    char ** generateParenthesis(int n, int* returnSize);
+    int a = 0;
+    int *returnSize = &a;
+    
+    generateParenthesis(3, returnSize);
+}
+//回溯
+void generateParenthesisBack(char **result,int n,int *returnSize,int leftCount,int rightCount,char *s)
+{
+    //首先判断是否到底
+    if (leftCount >= n && rightCount >= n)  {
+        
+        s[2*n] = '\0';
+        result[*returnSize] = (char*)malloc(sizeof(char)*(2*n+1));
 
+        strcpy(result[*returnSize], s);
+        
+        printf("result[%d]:%s\n",*returnSize,s);
+
+        (*returnSize)++;
+        
+        
+    }else if (leftCount == rightCount)
+    {
+        //左拨号等于右括号，但是总数不是2*n，下一个字符只能是左括号
+        s[leftCount+rightCount] = '(';
+        generateParenthesisBack(result, n, returnSize, leftCount+1, rightCount, s);
+        
+        
+    }else if (leftCount > rightCount)
+    {
+        if (leftCount == n) {
+            s[leftCount+rightCount] = ')';
+            generateParenthesisBack(result, n, returnSize, leftCount, rightCount+1, s);
+        }else
+        {
+            s[leftCount+rightCount] = '(';
+            generateParenthesisBack(result, n, returnSize, leftCount+1, rightCount, s);
+            s[leftCount+rightCount] = ')';
+            generateParenthesisBack(result, n, returnSize, leftCount, rightCount+1, s);
+            
+            
+        }
+        
+        
+        
+    }else{
+        
+    }
+    
+    
+   
         
 
 }
 char ** generateParenthesis(int n, int* returnSize){
     
-    char **result  = (char **)malloc(sizeof(char*)*(*returnSize));
-    char *s = (char*)malloc(sizeof(char)*(n+1));
+    char **result  = (char **)malloc(sizeof(char*)*1420);
+    char *s = (char*)malloc(sizeof(char)*(2*n+1));
     
-    generateParenthesisBack(result, n, returnSize, 0, 0, s,0);
+    *returnSize = 0;
+    generateParenthesisBack(result, n, returnSize, 0, 0, s);
     
-   
+    
     
     return result;
     
