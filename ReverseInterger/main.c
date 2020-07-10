@@ -39,21 +39,67 @@ struct TreeNode {
 int main(int argc, const char * argv[]) {
 
 
-    void generateParenthesisSelector(void);
-    generateParenthesisSelector();
+    void swapPairsSelector(void);
+    swapPairsSelector();
     
 
     return 0;
 }
+
+#pragma mark - 24. 两两交换链表中的节点
+//https://leetcode-cn.com/problems/swap-nodes-in-pairs/
+void swapPairsSelector(void)
+{
+    void printfTreeNodes(struct ListNode *node);
+
+    
+    struct ListNode* swapPairs(struct ListNode* head);
+    
+    struct ListNode *createList (int n);
+    
+    struct ListNode *firstList = createList(3);
+    
+    printfTreeNodes(firstList);
+    
+    struct ListNode *result = swapPairs(firstList);
+    
+    printfTreeNodes(result);
+
+
+    
+    
+}
+
+struct ListNode* swapPairs(struct ListNode* head){
+    
+    if (!head) {
+        return head;
+    }
+    
+    if (!head->next) {
+        return head;
+    }
+    //临时结构体指针
+    struct ListNode *temp = head->next;
+    
+    head->next = swapPairs(temp->next);
+    
+    temp->next = head;
+ 
+    return temp;
+
+}
+
+
+
+#pragma mark - 22. 括号生成
+//https://leetcode-cn.com/problems/generate-parentheses/
 
 //排序
 int comp(const void *a,const void *b)
 {
     return *(int *)a - *(int *)b;
 }
-
-#pragma mark - 22. 括号生成
-//https://leetcode-cn.com/problems/generate-parentheses/
 void generateParenthesisSelector(void)
 {
     char ** generateParenthesis(int n, int* returnSize);
@@ -3344,42 +3390,6 @@ void printListNodeValue(struct ListNode *list)
     }
     
 }
-//创建对应的链表
-struct ListNode *createList (int n) {
-    
-    //定义各个节点的结构体指针
-    struct ListNode *start,*node,*temp;
-    
-    //头指针
-    start = (struct ListNode *)malloc(sizeof(struct ListNode));
-    
-    //z
-    temp = start;
-    
-    
-    
-    for (int i = 1; i<n; i++) {
-        
-        //中间结点的指针
-        node = (struct ListNode *)malloc(sizeof(struct ListNode));
-        
-        node->val = i;
-        
-        node->next = NULL;
-        
-        
-        
-        temp->next = node;
-        
-        temp = node;
-        
-        
-    }
-    
-    //返回头指针
-    return start;
-    
-};
 
 
 
@@ -4035,7 +4045,60 @@ char * countAndSay(int n){
 
 
 
-#pragma mark - 创建一个简单的二叉树
+#pragma mark - 一些公共方法
+void printfTreeNodes(struct ListNode *node)
+{
+    if (!node) {
+        printf("\n");
+        return;
+        
+    }
+    
+    printf("->%d",node->val);
+    
+    printfTreeNodes(node->next);
+    
+}
+//创建对应的链表
+struct ListNode *createList (int n) {
+    
+    //定义各个节点的结构体指针
+    struct ListNode *start,*node,*temp;
+    
+    //头指针
+    start = (struct ListNode *)malloc(sizeof(struct ListNode));
+    
+    //z
+    temp = start;
+    
+    
+    
+    for (int i = 1; i<n; i++) {
+        
+        //中间结点的指针
+        node = (struct ListNode *)malloc(sizeof(struct ListNode));
+        
+//        node->val = i;
+        node->val = rand()%10;
+
+        
+        node->next = NULL;
+        
+        
+        
+        temp->next = node;
+        
+        temp = node;
+        
+        
+    }
+    
+    //返回头指针
+    return start;
+    
+};
+
+
 struct TreeNode *createTrees(void)
 {
     struct TreeNode *tree1 =  (struct TreeNode*)malloc(sizeof(struct TreeNode));
