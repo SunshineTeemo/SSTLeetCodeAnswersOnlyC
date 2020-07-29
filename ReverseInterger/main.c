@@ -12,6 +12,7 @@
 #include<string.h>
 
 #include <stdlib.h>
+#include <limits.h>
 
 typedef enum
 {
@@ -39,11 +40,211 @@ struct TreeNode {
 int main(int argc, const char * argv[]) {
 
 
-    void swapPairsSelector(void);
-    swapPairsSelector();
+    void nextPermutationSelector(void);
+    nextPermutationSelector();
     
 
     return 0;
+}
+#pragma mark - 31.下一个排列
+//https://leetcode-cn.com/problems/next-permutation/
+
+void nextPermutationSelector(void)
+{
+    void nextPermutation(int* nums, int numsSize);
+    int a[3] = {1,3,2};
+    int count = 3;
+    nextPermutation(a, count);
+    
+    for (int i = 0; i < count; i++) {
+        printf("a[%d]:%d\n",i,a[i]);
+    }
+    
+    
+}
+void nextPermutation(int* nums, int numsSize){
+    
+    if (numsSize == 0 || numsSize == 1) {
+        return;
+    }
+
+    int i = numsSize - 2;
+    int j = numsSize - 1;
+
+    while (i >= 0 && nums[i] >= nums[i+1]) {
+        
+        i--;
+    }
+    
+    
+    if (i >= 0) {
+        
+        j = numsSize - 1;
+    
+        while (j >= i+1 && nums[j] <= nums[i]) {
+            
+            j--;
+            
+        }
+        
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+
+
+        
+    }
+
+    j = numsSize -1;
+    while (i+1 < j) {
+        
+        int temp = nums[i+1];
+        nums[i+1] = nums[j];
+        nums[j] = temp;
+
+        j--;
+        i++;
+    }
+   
+
+}
+#pragma mark - 29. 两数相除
+//https://leetcode-cn.com/problems/divide-two-integers/
+void divideSelector(void)
+{
+    int divide(int dividend, int divisor);
+
+    printf("%d\n",divide(10, 3));
+}
+
+int divide(int dividend, int divisor){
+    
+    
+    if (divisor == 1) {
+        return dividend;
+    }else if (divisor == -1)
+    {
+        if (dividend == -2147483648) {
+            return 2147483647;
+        }
+        return -dividend;
+    }else{
+        
+        long a = dividend;
+        long b = divisor;
+        long absDivide(long dividend,long divisor);
+
+           
+        if (a >= 0 && b >= 0) {
+              
+               
+            long result = absDivide(a, b);
+               
+               
+            return result > INT_MAX?  INT_MAX:(int)result;
+               
+        }else if (a < 0 && b >= 0)
+        {
+            long result = -absDivide(-a, b);
+                       
+                       
+            return (int)result;
+        }else if (a >=0 && b < 0)
+        {
+            long result = -absDivide(a,-b);
+                       
+                       
+            return result > INT_MAX?  INT_MAX:(int)result;
+        }
+
+        else{
+            long result = absDivide(-a,-b);
+                    
+            return (int)result;
+        }
+        
+    }
+ 
+
+}
+long absDivide(long dividend,long divisor)
+{
+    
+    if ( dividend < divisor)
+    {
+        return 0;
+    }else if (dividend == divisor)
+    {
+        return 1;
+    }else{
+        
+        long temp = divisor;
+        long count = 1;
+        while (temp + temp <= dividend) {
+            temp = temp +temp;
+            count = count + count;
+        }
+
+        return count + absDivide(dividend - temp, divisor);
+    }
+}
+
+#pragma mark - 4.中位数
+//https://leetcode-cn.com/problems/median-of-two-sorted-arrays/
+void findMedianSortedArraysSelector(void)
+{
+    
+    
+    
+    double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Size);
+    
+    int a[1] = {1};
+    
+    int b[1] = {3};
+    
+    printf("%f\n",findMedianSortedArrays(a, 1, b, 1));
+
+    
+}
+
+
+double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Size){
+    
+ 
+    
+    int *result = (int*)malloc(sizeof(int)*(nums1Size + nums2Size));
+    
+    
+    int i = 0;
+    int j = 0;
+    int count = 0;
+   
+    while (i < nums1Size && j < nums2Size) {
+
+        result[count++] = nums1[i] < nums2[j]? nums1[i++] :nums2[j++];
+
+    }
+    
+    
+    while (i < nums1Size) {
+        result[count++] = nums1[i++];
+
+    }
+    
+    while (j < nums2Size) {
+        result[count++] = nums2[j++];
+
+    }
+    
+    
+    
+    if ((nums1Size + nums2Size)%2) {
+        return result[(nums1Size + nums2Size)/2];
+    }else{
+        return (result[(nums1Size+nums2Size)/2] + result[(nums1Size + nums2Size)/2 -1])/2.0;
+    }
+    
+
 }
 
 #pragma mark - 24. 两两交换链表中的节点
