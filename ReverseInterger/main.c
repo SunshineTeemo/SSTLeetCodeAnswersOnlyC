@@ -243,8 +243,48 @@ double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Si
     }else{
         return (result[(nums1Size+nums2Size)/2] + result[(nums1Size + nums2Size)/2 -1])/2.0;
     }
-    
 
+}
+#pragma mark - 5460. 好数对的数目
+
+int numIdenticalPairs(int* nums, int numsSize){
+    int count = 0;
+
+    for (int i = 0; i < numsSize-1; i++) {
+
+
+        for (int j = i+1; j < numsSize; j++) {
+
+            if (nums[i] == nums[j]) {
+                count ++;
+            }
+
+
+        }
+
+    }
+
+    return count;
+
+
+
+}
+int numSub(char * s)
+{
+    long count = 0;
+    int length = 0;
+
+    for (int i = 0; i < (int)strlen(s); i++) {
+        if (s[i] == '0') {
+            length = 0;
+        }else{
+            length ++;
+            count = count + length;
+        }
+    }
+
+
+    return count %1000000007;
 }
 
 #pragma mark - 24. 两两交换链表中的节点
