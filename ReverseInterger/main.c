@@ -40,11 +40,116 @@ struct TreeNode {
 int main(int argc, const char * argv[]) {
 
 
-    void nextPermutationSelector(void);
-    nextPermutationSelector();
+    void searchSelector(void);
+    searchSelector();
     
 
     return 0;
+}
+#pragma mark - 33. 搜索旋转排序数组
+//https://leetcode-cn.com/problems/search-in-rotated-sorted-array/
+
+void searchSelector(void)
+{
+    int search2(int* nums, int numsSize, int target);
+    int nums[7] = {4,5,6,7,8,9,10};
+    printf("%d\n",search2(nums, 7, 11));
+    
+    
+    
+}
+//官方二分法
+int search2(int* nums, int numsSize, int target){
+    
+    if (numsSize == 0) {
+        return -1;
+    }
+    
+    if (numsSize == 1) {
+        return nums[0] == target ? 0: -1;
+    }
+    
+    int l = 0;
+    int r = numsSize - 1;
+
+    
+    
+    while (l <= r) {
+
+        int mid = (l+r)/2;
+        
+        if (nums[mid] == target) {
+            //中间点正好是是目标值
+            return mid;
+        }
+        
+        
+        if (nums[l] <= nums[mid])
+        {
+
+            if (target >= nums[l] && target <= nums[mid]) {
+                r = mid - 1;
+            }else{
+                l = mid + 1;
+            }
+ 
+        
+        }else{
+
+            
+            if (target >= nums[mid] && target <= nums[r]) {
+                l = mid + 1;
+            }else{
+                r = mid -1;
+            }
+          
+        }
+      
+    }
+    
+
+    return -1;
+}
+
+//自己想的办法
+int search(int* nums, int numsSize, int target){
+    
+    if (numsSize == 0) {
+        return -1;
+    }
+    
+ 
+    int i = 0;
+    
+    if (nums[i] == target) {
+        return 0;
+    }else if (nums[i] < target)
+    {
+        //从前往后开始遍历
+        while (i <= numsSize - 2 && nums[i+1] > nums[i]) {
+            if (nums[i+1] == target) {
+                return i+1;
+            }
+
+            i++;
+        }
+       
+    }else{
+        //从后往前遍历
+        i = numsSize - 1;
+        
+        while (i >= 1 && nums[i] < nums[i+1 > numsSize -1 ? 0: i+1]) {
+            if (nums[i] == target) {
+                return i;
+            }
+            i--;
+        }
+
+        
+    }
+
+    return -1;
+
 }
 #pragma mark - 31.下一个排列
 //https://leetcode-cn.com/problems/next-permutation/
