@@ -40,12 +40,161 @@ struct TreeNode {
 int main(int argc, const char * argv[]) {
 
 
-    void searchSelector(void);
-    searchSelector();
+    void searchRangeSelector(void);
+    searchRangeSelector();
     
 
     return 0;
 }
+#pragma mark - 34. 在排序数组中查找元素的第一个和最后一个位置
+//https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+
+void searchRangeSelector(void)
+{
+    int* searchRange2(int* nums, int numsSize, int target, int* returnSize);
+    
+    int nums[9] = {1,2,3,4,5,5,5,5,6};
+    int count = 0;
+    int *result = searchRange2(nums, 9, 5, &count);
+    printf("result[0]:%d;result[1]:%d\n",result[0],result[1]);
+
+}
+//官方方法
+int* searchRange2(int* nums, int numsSize, int target, int* returnSize){
+    
+    int *result = (int*)malloc(sizeof(int)*2);
+    
+    memset(result, -1, sizeof(int)*2);
+    *returnSize = 2;
+    
+    if (numsSize == 0) {
+        return  result;
+    }
+    
+    int searchRangeBorder(int *nums,int numsSize,int target,bool isFromLeft);
+
+    int a = searchRangeBorder(nums, numsSize, target, true);
+    int b = searchRangeBorder(nums, numsSize, target, false);
+    
+    if (a < 0 || nums[a] != target) {
+        a = -1;
+    }
+    
+    if (b > numsSize -1 || nums[b] != target) {
+        b = -1;
+    }
+    
+    result[0] = a;
+    result[1] = b;
+    
+    return result;
+
+    
+}
+int searchRangeBorder(int *nums,int numsSize,int target,bool isFromLeft)
+{
+    int l = 0;
+    int r = numsSize - 1;
+    int mid = (l+r)/2;
+
+    
+    while (l < r) {
+        
+        mid = (l+r)/2;
+
+        
+        //目标值在左半边
+        if (nums[mid] > target) {
+            r = mid-1;
+        }else if (nums[mid] == target && isFromLeft)
+        {
+            r = mid;
+        }else if (nums[mid] == target && !isFromLeft)
+        {
+            l = mid;
+        }
+        
+        else{
+            l = mid +1;
+        }
+        
+        
+    }
+    
+    
+    return mid;
+}
+
+//自己想的办法
+int* searchRange(int* nums, int numsSize, int target, int* returnSize){
+  
+    
+    int *result = (int*)malloc(sizeof(int)*2);
+    
+    memset(result, -1, sizeof(int)*2);
+    *returnSize = 2;
+    
+    if (numsSize == 0) {
+        return result;
+    }
+    
+    void seargeRangeIteration(int *nums,int l,int r,int target,int *result);
+
+    seargeRangeIteration(nums, 0, numsSize-1,target,result);
+
+    return result;
+
+}
+void seargeRangeIteration(int *nums,int l,int r,int target,int *result)
+{
+    if (l > r) {
+        return;
+    }
+    
+    if (nums[r] < target || nums[l] > target) {
+        return;
+    }
+    
+
+    
+    int mid = (l+r)/2;
+           
+    if (nums[mid] == target) {
+               
+        if (result[0] == -1 && result[1] == -1) {
+            result[0] = mid;
+            result[1] = mid;
+        }else{
+            if (mid < result[0]) {
+                result[0] = mid;
+            }else if (mid > result[1])
+            {
+                result[1] = mid;
+            }
+        }
+        
+
+               
+        seargeRangeIteration(nums, l, mid-1,target,result);
+        seargeRangeIteration(nums, mid+1, r,target,result);
+
+               
+               
+               
+    }else if (nums[mid] > target)
+    {
+        seargeRangeIteration(nums, l, mid-1,target,result);
+
+               
+    }else{
+        seargeRangeIteration(nums, mid+1, r,target,result);
+
+    }
+           
+           
+    
+}
+
 #pragma mark - 33. 搜索旋转排序数组
 //https://leetcode-cn.com/problems/search-in-rotated-sorted-array/
 
