@@ -46,6 +46,45 @@ int main(int argc, const char * argv[]) {
 
     return 0;
 }
+
+#pragma mark - 36. 有效的数独
+//https://leetcode-cn.com/problems/valid-sudoku/
+bool isValidSudoku(char** board, int boardSize, int* boardColSize){
+  
+    //第一层是横向计数、第二层是纵向计数、第三层是3*3计数
+    int count[3][9][9] = {{{0}}};
+
+       
+    for (int i = 0; i < boardSize ; i++) {
+           
+        for (int j = 0; j < boardColSize[i]; j++) {
+               
+            char c = board[i][j];
+
+
+            if (c != '.') {
+                
+                int k = j/3*3 + i/3;
+
+                int value = c - '0'-1;
+                   
+                if (count[0][i][value] == 1 || count[1][value][j] == 1 || count[2][k][value] == 1) {
+                    return false;
+                }
+                count[0][i][value]++;
+                count[1][value][j]++;
+                count[2][k][value]++;
+                   
+                   
+            }
+               
+        }
+           
+           
+    }
+       
+    return true;
+}
 #pragma mark - 34. 在排序数组中查找元素的第一个和最后一个位置
 //https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/
 
