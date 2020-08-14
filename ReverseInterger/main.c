@@ -40,13 +40,118 @@ struct TreeNode {
 int main(int argc, const char * argv[]) {
 
 
-    void searchRangeSelector(void);
-    searchRangeSelector();
+    void combinationSumSelector(void);
+    combinationSumSelector();
     
 
     return 0;
 }
 
+#pragma mark - 39. 组合总和
+//https://leetcode-cn.com/problems/combination-sum/
+void combinationSumSelector(void)
+{
+    int** combinationSum(int* candidates, int candidatesSize, int target, int* returnSize, int** returnColumnSizes);
+    
+    int array[5] = {1,2,3,4,5};
+    
+    int count = 0;
+    
+    int **returnColumnSizes = (int**)malloc(sizeof(int *)*1000);
+
+    
+    combinationSum(array, 5, 10, &count, returnColumnSizes);
+    
+    
+}
+
+int** combinationSum(int* candidates, int candidatesSize, int target, int* returnSize, int** returnColumnSizes){
+
+
+    
+    int **result = (int **)malloc(sizeof(int*)*200);
+    *returnColumnSizes = (int *)malloc(sizeof(int)*200);
+
+    *returnSize = 0;
+
+    result[0] = (int*)malloc(sizeof(int)*200);
+    
+    //先排序
+    int comp(const void *a,const void *b);
+
+    qsort(candidates, candidatesSize, sizeof(int), comp);
+
+    int combinationSumStep(int* candidates, int candidatesSize,int begin,int **result,int target,int *returnSize,int **returnColumnSizes,int index);
+    
+    combinationSumStep(candidates, candidatesSize, 0, result, target, returnSize, returnColumnSizes, 0);
+
+
+//    for (int i = 0; i < *returnSize; i++) {
+//
+//        for (int j = 0; j < (*returnColumnSizes)[i]; j++) {
+//            printf("%d,",result[i][j]);
+//
+//        }
+//        printf("\n");
+//    }
+    
+    return result;
+
+}
+
+/// 三种状态：1表示继续迭代计算、0表示线路正确并且终结，-1表示线路错误并终结
+/// @param candidates 原数据
+/// @param candidatesSize 原数据个数
+/// @param begin 当前判断数据的起始下标
+/// @param result 结果数组
+/// @param target 目标值
+/// @param returnSize 返回结果数组长度
+/// @param returnColumnSizes 返回结果数组内各个数组的长度数组
+/// @param index 当前数据的下标
+int combinationSumStep(int* candidates, int candidatesSize,int begin,int **result,int target,int *returnSize,int **returnColumnSizes,int index)
+{
+
+    if (target == 0) {
+
+        return 0;
+    }else if (target < 0)
+    {
+        return -1;
+    }else{
+        
+        for (int i = begin; i < candidatesSize; i++) {
+            
+            result[*returnSize][index] = candidates[i];
+
+            
+            int v = combinationSumStep(candidates, candidatesSize, i, result, target - candidates[i], returnSize, returnColumnSizes,index+1);
+               
+            if (v < 0) {
+                return 1;
+            }else if (v == 0)
+            {
+                
+                result[(*returnSize)+1] = (int*)malloc(sizeof(int)*200);
+
+                //上面的层次数据复制到后一个数组中
+                memcpy(result[(*returnSize)+1], result[*returnSize], index*(sizeof(int)));
+            
+                (*returnColumnSizes)[*returnSize] = index+1;
+
+                (*returnSize)++;
+                
+                
+                
+            }
+            
+        }
+        
+        
+        return 1;
+    }
+        
+
+}
 #pragma mark - 36. 有效的数独
 //https://leetcode-cn.com/problems/valid-sudoku/
 bool isValidSudoku(char** board, int boardSize, int* boardColSize){
